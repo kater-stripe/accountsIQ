@@ -120,9 +120,10 @@ Colors are CSS variables injected by `BrandColorOverrides` component (rendered i
 - `--brand-primary` / `bg-brand-primary` / `text-brand-primary`
 - `--brand-secondary` / `bg-brand-secondary` (used as the sidebar background)
 
-Use these Tailwind classes instead of hardcoded hex values — except in the `/demo/` pages and the dashboard `wallet` and `financial-accounts` pages, which use **inline styles** with these color constants:
+Use these Tailwind classes instead of hardcoded hex values — except in the `/demo/` pages and several dashboard pages, which use **inline styles** with these color constants:
 - `/demo/` pages: `DARK_BG = '#1A1730'`, `AMBER = '#F59E0B'`, `GREEN = '#16C665'`
 - `wallet` and `financial-accounts` dashboard pages: `#323E48` (navy headings), `#77B32A` (green accent), `#8892A0` (muted labels), `#4D5761` (secondary text)
+- `payments` (Sales) and `reports` dashboard pages: `BLUE = '#3B6AE8'`, `NAVY = '#1C2B47'`
 
 ### i18n
 
@@ -162,7 +163,14 @@ Changes made from the upstream `sage` branch:
 | `src/app/api/accounts/getRecipients.ts` | `stripeAccount` header (not `stripeContext`) for recipient listing |
 | `src/app/api/accounts/createRecipientOnboardingLink.ts` | Raw fetch to `POST /v2/core/account_links` (v1 accountLinks not supported for v2 recipients) |
 | `src/app/api/money-management/outbound-payments/createOutboundPayment.ts` | CoP pre-flight (initiate + acknowledge) for `gbba_` payout methods before OBP creation |
-| `src/components/common/Sidebar.tsx` | Finance group: Wallet → Accounts → Capital → Bills; More group: Suppliers → Authorizations → Reports |
+| `src/components/common/Sidebar.tsx` | Nav items: Home, Favourites (disabled), Sales, Purchases, Items (disabled), Financial Accounts, General Ledger (disabled), Reports, Dashboards (disabled); disabled items render as `<span>` with `cursor: default` instead of `<Link>` |
+| `src/app/[language]/dashboard/payments/page.tsx` | Renamed to "Sales" (via locale files); blue top-border card; `SimulateModal` creates a confirmed PaymentIntent on the connected account via v1 `stripeAccount` |
+| `src/app/[language]/dashboard/reports/page.tsx` | Custom analytics page — fetches all FAs + transactions (fan-out per FA); KPI row, FA balance table, 6-month bar chart, category breakdown, recent 20 transactions |
+| `src/app/[language]/dashboard/suppliers/page.tsx` | `DEMO_SUPPLIERS` list (AccountsIQ, AWS, Certification Europa); Stripe recipients deduplicated against demo names; `PaymentModal` accepts `allFinancialAccounts` prop for FA selector; `ItemInvoicesTab` using `useFakeBills` |
+| `src/app/[language]/dashboard/wallet/page.tsx` | Added `DEMO_PERSONA_NAME = 'Eric Harmon'` and `DEMO_COMPANY_NAME = 'Triathlon Ireland'` — hardcoded because Stripe account identity has wrong data |
+| `src/components/ai-wizard/AIWizard.tsx` | Removed capital financing logic; shows pending supplier payments count from `useFakeBills`; "Review pending payments" button navigates to suppliers page |
+| `src/components/financial-account/PaymentModal.tsx` | Added `allFinancialAccounts` prop; "Pay from" `<Select>` shown when >1 FA; `selectedFaId` state drives `fromFinancialAccountId` and description |
+| `src/app/api/payment-intents/simulatePayment.ts` | New server action — creates a confirmed PaymentIntent with `pm_card_visa` on a connected account (v1 `stripeAccount`) |
 
 ## Deploying
 

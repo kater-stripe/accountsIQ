@@ -214,10 +214,11 @@
       "title": "Kapital",
       "promotions": "Werbeaktionen",
       "financings": "Finanzierungen",
-      "financing-promotion": "Financing Offer", "financing-application": "Finanzierungsantrag"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "Finanzierungsantrag"
     },
     "payments": {
-      "title": "Zahlungen",
+      "title": "Sales",
       "payment-method-settings": "Zahlungsmethoden-Einstellungen",
       "settings": {
         "title": "Einstellungen"
@@ -265,35 +266,6 @@
         "send": "Senden",
         "copy-link": "Link kopieren",
         "download": "Herunterladen"
-      }
-    },
-    "invoices": {
-      "title": "Rechnungen",
-      "table": {
-        "invoice": "Rechnung",
-        "customer": "Kunde",
-        "amount": "Betrag",
-        "status": "Status",
-        "due-date": "Fälligkeitsdatum",
-        "actions": "Aktionen",
-        "create-invoice": "Neue Rechnung erstellen",
-        "delete": "Löschen",
-        "finalize": "Abschließen",
-        "send": "Senden",
-        "copy-link": "Link kopieren",
-        "download": "Herunterladen"
-      }
-    },
-    "customers": {
-      "title": "Kunden",
-      "table": {
-        "name": "Name",
-        "email": "E-Mail",
-        "phone": "Telefon",
-        "address": "Adresse",
-        "actions": "Aktionen",
-        "create-customer": "Neuen Kunden erstellen",
-        "delete": "Löschen"
       }
     },
     "tax": {

@@ -53,7 +53,7 @@ type FACardProps = {
   accountId: string;
 };
 
-const BORDER_COLORS = ['#77B32A', '#323E48', '#4D5761'];
+const BORDER_COLORS = ['#3B6AE8', '#1C2B47', '#4D5761'];
 
 const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps) => {
   const router = useRouter();
@@ -124,7 +124,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
           <h3 style={{ fontSize: 16, fontWeight: 700, color: '#323E48', margin: 0, letterSpacing: '-0.01em' }}>{fa.display_name ?? 'Financial Account'}</h3>
           <div style={{ fontSize: 12, color: '#8892A0', marginTop: 2 }}>{fa.id.slice(-12)}</div>
         </div>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: fa.status === 'open' ? '#f3f8e9' : '#F4F4F4', color: fa.status === 'open' ? '#5a881f' : '#8892A0', fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, padding: '3px 8px', borderRadius: 999 }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: fa.status === 'open' ? '#EFF4FF' : '#F4F4F4', color: fa.status === 'open' ? '#3B6AE8' : '#8892A0', fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, padding: '3px 8px', borderRadius: 999 }}>
           {fa.status}
         </span>
       </div>
@@ -137,7 +137,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
         </div>
         {lastTx && (
           <div style={{ fontSize: 12, color: '#8892A0', marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ color: '#5a881f' }}><IArrowUp style={{ transform: 'rotate(180deg)' }} /></span>
+            <span style={{ color: '#3B6AE8' }}><IArrowUp style={{ transform: 'rotate(180deg)' }} /></span>
             Last settlement{' '}
             <span style={{ fontWeight: 600, color: '#323E48' }}>
               {lastTx.amount?.value != null ? fmtAmt(lastTx.amount.value, lastTx.amount.currency!) : '—'}
@@ -156,7 +156,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
           <button
             onClick={() => requestAddress()}
             disabled={isRequestingAddress}
-            style={{ fontSize: 12, color: '#77B32A', background: 'none', border: 'none', cursor: isRequestingAddress ? 'not-allowed' : 'pointer', padding: 0, fontWeight: 600, opacity: isRequestingAddress ? 0.6 : 1 }}
+            style={{ fontSize: 12, color: '#3B6AE8', background: 'none', border: 'none', cursor: isRequestingAddress ? 'not-allowed' : 'pointer', padding: 0, fontWeight: 600, opacity: isRequestingAddress ? 0.6 : 1 }}
           >
             {isRequestingAddress ? 'Requesting…' : '+ Request sort code & account number'}
           </button>
@@ -171,7 +171,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
             <div>
               <div style={{ fontSize: 10, color: '#8892A0', textTransform: 'uppercase' as const, letterSpacing: '.04em', marginBottom: 2 }}>Sort code</div>
               <button onClick={() => copy(bankDetails.sortCode!, 'sort')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                {bankDetails.sortCode} {copied === 'sort' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                {bankDetails.sortCode} {copied === 'sort' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
               </button>
             </div>
           )}
@@ -179,7 +179,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
             <div>
               <div style={{ fontSize: 10, color: '#8892A0', textTransform: 'uppercase' as const, letterSpacing: '.04em', marginBottom: 2 }}>Account number</div>
               <button onClick={() => copy(bankDetails.accountNumber!, 'acct')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                {bankDetails.accountNumber} {copied === 'acct' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                {bankDetails.accountNumber} {copied === 'acct' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
               </button>
             </div>
           )}
@@ -187,7 +187,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
             <div>
               <div style={{ fontSize: 10, color: '#8892A0', textTransform: 'uppercase' as const, letterSpacing: '.04em', marginBottom: 2 }}>Routing number</div>
               <button onClick={() => copy(bankDetails.routingNumber!, 'routing')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                {bankDetails.routingNumber} {copied === 'routing' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                {bankDetails.routingNumber} {copied === 'routing' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
               </button>
             </div>
           )}
@@ -198,7 +198,7 @@ const FACard = ({ fa, index, language, stripeSecretKey, accountId }: FACardProps
       <div style={{ marginTop: 'auto', paddingTop: 14, borderTop: '1px solid #F4F4F4' }}>
         <button
           onClick={() => router.push(`/${language}/dashboard/financial-accounts/${fa.id}`)}
-          style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '8px 14px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', background: '#77B32A', color: '#fff', border: 'none' }}
+          style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '8px 14px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', background: '#3B6AE8', color: '#fff', border: 'none' }}
         >
           See details <IArrowR />
         </button>
@@ -227,7 +227,7 @@ const FinancialAccountsPage = () => {
   useEffect(() => {
     if (autoCreateAttempted.current || isPending || !account?.id || !financialAccounts || financialAccounts.length > 0) return;
     autoCreateAttempted.current = true;
-    createFinancialAccountAction({ name: 'ClearAccept Wallet', accountId: account.id, stripeSecretKey })
+    createFinancialAccountAction({ name: 'AccountsIQ Wallet', accountId: account.id, stripeSecretKey })
       .then(() => queryClient.invalidateQueries({ queryKey: ['financial-accounts', account.id, stripeSecretKey] }))
       .catch(err => console.error('Auto-create FA failed:', err));
   }, [isPending, financialAccounts, account?.id]);
@@ -259,7 +259,7 @@ const FinancialAccountsPage = () => {
       />
 
       {/* Summary bar */}
-      <div style={{ background: '#fff', borderTop: '4px solid #77B32A', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '22px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' as const }}>
+      <div style={{ background: '#fff', borderTop: '4px solid #3B6AE8', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '22px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' as const }}>
         <div style={{ flex: '1 1 240px' }}>
           <div style={{ fontSize: 11, color: '#8892A0', fontWeight: 600, letterSpacing: '.04em', textTransform: 'uppercase' as const, marginBottom: 6 }}>Total available balance</div>
           {isPending ? (
@@ -277,7 +277,7 @@ const FinancialAccountsPage = () => {
         </div>
         <button
           onClick={() => setIsCreateOpen(true)}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', background: '#77B32A', color: '#fff', border: 'none' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', background: '#3B6AE8', color: '#fff', border: 'none' }}
         >
           <IPlus /> New account
         </button>

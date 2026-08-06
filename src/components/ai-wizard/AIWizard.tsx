@@ -1,12 +1,9 @@
 'use client';
 
-import { createCapitalOffer } from '@/app/api/financing-offers/createCapitalOffer';
-import { getLatestFinancingOffer } from '@/app/api/financing-offers/getLatestFinancingOffer';
 import { useDemoConfig } from '@/context/DemoConfigContext';
 import { useFakeBills } from '@/hooks/useFakeBills';
 import { useDemoMerchant } from '@/context/DemoMerchantContext';
 import { SparklesIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -17,175 +14,52 @@ type Suggestion = {
     action: () => Promise<void>;
 };
 
-const LoadingSpinner = () => (
-    <svg
-        className="animate-spin h-4 w-4"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-    >
-        <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-        />
-        <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        />
-    </svg>
-);
 
 export const AIWizard = () => {
-    const { language, stripeSecretKey } = useDemoConfig();
-    const { account, isSignedIn, isCapitalEligible, isCapabilityActive } = useDemoMerchant();
+    const { language } = useDemoConfig();
+    const { account, isSignedIn } = useDemoMerchant();
     const router = useRouter();
     const pathname = usePathname();
 
-    console.log('pathname', pathname);
-
     const [isOpen, setIsOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(true);
-    // Track which route we last showed the suggestion on
     const [lastShownOnRoute, setLastShownOnRoute] = useState<string | null>(null);
 
     const pathnameWithoutLanguage = pathname.replace(`/${language}`, '');
 
-    // Get merchant country for capital offer creation
-    const merchantCountry = (account?.identity?.country ?? 'US') as 'US' | 'GB';
-
-    // Query for existing financing offer
-    const { data: latestFinancingOffer, refetch: refetchFinancingOffer, isLoading: isLoadingFinancingOffer } =
-        useQuery({
-            queryKey: ['ai-wizard-financing-offer', account?.id, stripeSecretKey],
-            queryFn: async () => {
-                if (!account?.id) return null;
-                return getLatestFinancingOffer({
-                    accountId: account.id,
-                    stripeSecretKey,
-                });
-            },
-            enabled: isSignedIn && !!account && isCapitalEligible,
-        });
-
-    // Mutation for creating capital offer
-    const {
-        mutateAsync: createOffer,
-        isPending: isCreatingOffer,
-    } = useMutation({
-        mutationKey: ['ai-wizard-create-capital-offer', account?.id],
-        mutationFn: createCapitalOffer,
-    });
-
-    // Pages where we show suggestions
-    const capitalSuggestionPages = ['/dashboard/payments'];
-    const isOnCapitalSuggestionPage = capitalSuggestionPages.includes(pathnameWithoutLanguage);
-    const isOnBillsPage = pathnameWithoutLanguage === '/dashboard/bills';
-
     // Get bills from local storage
     const { bills } = useFakeBills();
-    const hasBills = bills && bills.length > 0;
+    const openBills = useMemo(() => (bills ?? []).filter(b => b.status === 'open'), [bills]);
+    const openCount = openBills.length;
 
-    // Check if we should show the issuing card suggestion on bills page
-    const shouldShowIssuingSuggestion = useMemo(() => {
+    // Pages where we show the approvals suggestion
+    const approvalSuggestionPages = ['/dashboard/wallet', '/dashboard', '/dashboard/suppliers'];
+    const isOnApprovalPage = approvalSuggestionPages.includes(pathnameWithoutLanguage);
+
+    const shouldShowApprovalSuggestion = useMemo(() => {
         if (!isSignedIn || !account) return false;
-        if (!isOnBillsPage) return false;
-        if (!isCapabilityActive('commercial.stripe.prepaid_card')) return false;
-        if (!hasBills) return false;
-        return true;
-    }, [isSignedIn, account, isOnBillsPage, isCapabilityActive, hasBills]);
+        return isOnApprovalPage;
+    }, [isSignedIn, account, isOnApprovalPage]);
 
-    // Handle issuing card action - navigate to cards page
-    const handleIssuingAction = async () => {
-        router.push(`/${language}/dashboard/cards`);
-        setIsOpen(false);
-        setIsMinimized(true);
-    };
-
-    // Check if we should show a capital offer suggestion
-    const shouldShowCapitalSuggestion = useMemo(() => {
-        if (!isCapitalEligible) return false;
-        if (!isSignedIn || !account) return false;
-
-        // Only show on specific pages
-        if (!isOnCapitalSuggestionPage) return false;
-
-        // Wait for financing offer query to complete before deciding
-        if (isLoadingFinancingOffer) return false;
-
-        // Don't show if there's already an active financing offer
-        if (
-            latestFinancingOffer &&
-            ['accepted', 'paid_out'].includes(latestFinancingOffer.status)
-        ) {
-            return false;
-        }
-
-        console.log('shouldShowCapitalSuggestion', true);
-
-        return true;
-    }, [
-        isCapitalEligible,
-        isSignedIn,
-        account,
-        isOnCapitalSuggestionPage,
-        isLoadingFinancingOffer,
-        latestFinancingOffer,
-    ]);
-
-    // Handle capital offer action
-    const handleCapitalOfferAction = async () => {
-        if (!account) return;
-
-        // Create offer if one doesn't exist or isn't active
-        if (
-            !latestFinancingOffer ||
-            !['delivered', 'accepted', 'paid_out'].includes(
-                latestFinancingOffer.status,
-            )
-        ) {
-            await createOffer({
-                accountId: account.id,
-                country: merchantCountry,
-                stripeSecretKey,
-            });
-            // Wait a moment for the offer to be created
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            await refetchFinancingOffer();
-        }
-
-        // Navigate to capital page
-        router.push(`/${language}/dashboard/capital`);
+    const handleApprovalAction = async () => {
+        router.push(`/${language}/dashboard/suppliers`);
         setIsOpen(false);
         setIsMinimized(true);
     };
 
     // Current suggestion based on route and state
     const currentSuggestion: Suggestion | null = useMemo(() => {
-        if (shouldShowCapitalSuggestion) {
+        if (shouldShowApprovalSuggestion) {
+            const count = openCount > 0 ? openCount : 14;
             return {
-                id: 'capital-offer',
-                message:
-                    'Cashflow Constraint Detected: You have a stock purchase order of £30k pending, but current liquid cash is below safety thresholds. Based on your sales history, you qualify for growth financing.',
-                actionLabel: 'Review capital offer',
-                action: handleCapitalOfferAction,
-            };
-        }
-        if (shouldShowIssuingSuggestion) {
-            return {
-                id: 'issuing-for-bills',
-                message:
-                    'You have outstanding bills to pay. Consider using an issuing card for better spend tracking and control.',
-                actionLabel: 'View issuing cards',
-                action: handleIssuingAction,
+                id: 'pending-approvals',
+                message: `Action Required: You have ${count} supplier payment${count !== 1 ? 's' : ''} pending authorisation, including scheduled invoices and batch disbursements. Timely approval ensures uninterrupted supplier relationships and avoids late payment fees.`,
+                actionLabel: 'Review pending payments',
+                action: handleApprovalAction,
             };
         }
         return null;
-    }, [shouldShowCapitalSuggestion, shouldShowIssuingSuggestion, account, merchantCountry]);
+    }, [shouldShowApprovalSuggestion, openCount]);
 
     // Auto-expand when there's a new suggestion on a new route
     useEffect(() => {
@@ -244,14 +118,9 @@ export const AIWizard = () => {
                                 {/* Action Button */}
                                 <button
                                     onClick={currentSuggestion.action}
-                                    disabled={isCreatingOffer && currentSuggestion.id === 'capital-offer'}
-                                    className="w-full bg-brand-primary hover:bg-brand-primary/90 disabled:bg-brand-primary/70 text-brand-primary-contrasting font-medium py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
+                                    className="w-full bg-brand-primary hover:bg-brand-primary/90 text-brand-primary-contrasting font-medium py-2.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
                                 >
-                                    {isCreatingOffer && currentSuggestion.id === 'capital-offer' ? (
-                                        <LoadingSpinner />
-                                    ) : (
-                                        currentSuggestion.actionLabel
-                                    )}
+                                    {currentSuggestion.actionLabel}
                                 </button>
                             </div>
                         ) : (

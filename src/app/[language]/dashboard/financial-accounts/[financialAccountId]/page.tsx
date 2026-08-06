@@ -191,7 +191,7 @@ const FinancialAccountPage = () => {
       </button>
 
       {/* Balance card */}
-      <div style={{ background: '#fff', borderLeft: '4px solid #77B32A', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '24px 28px', marginBottom: 16 }}>
+      <div style={{ background: '#fff', borderLeft: '4px solid #3B6AE8', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '24px 28px', marginBottom: 16 }}>
         {/* Header row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap' as const, gap: 12, marginBottom: 20 }}>
           <div>
@@ -201,7 +201,7 @@ const FinancialAccountPage = () => {
                   {financialAccount?.display_name ?? 'Financial Account'}
                 </h2>
                 {isAutoPayoutsEnabled && (
-                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, background: '#f3f8e9', color: '#5a881f', padding: '3px 8px', borderRadius: 999 }}>Auto payouts active</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, background: '#EFF4FF', color: '#3B6AE8', padding: '3px 8px', borderRadius: 999 }}>Auto payouts active</span>
                 )}
               </div>
             )}
@@ -212,7 +212,7 @@ const FinancialAccountPage = () => {
                   <div>
                     <div style={{ fontSize: 10, color: '#8892A0', textTransform: 'uppercase' as const, letterSpacing: '.04em', marginBottom: 2 }}>Sort code</div>
                     <button onClick={() => copy(bankDetails.sortCode!, 'sort')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                      {bankDetails.sortCode} {copied === 'sort' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                      {bankDetails.sortCode} {copied === 'sort' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
                     </button>
                   </div>
                 )}
@@ -222,7 +222,7 @@ const FinancialAccountPage = () => {
                     <button onClick={() => copy(bankDetails.accountNumber!, 'acct')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                       {showFullAccountNumber ? bankDetails.accountNumber : `••••${bankDetails.last4}`}
                       <span onClick={(e) => { e.stopPropagation(); setShowFullAccountNumber(v => !v); }} style={{ fontSize: 11, color: '#8892A0', cursor: 'pointer', marginLeft: 2 }}>{showFullAccountNumber ? 'hide' : 'show'}</span>
-                      {copied === 'acct' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                      {copied === 'acct' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
                     </button>
                   </div>
                 )}
@@ -230,7 +230,7 @@ const FinancialAccountPage = () => {
                   <div>
                     <div style={{ fontSize: 10, color: '#8892A0', textTransform: 'uppercase' as const, letterSpacing: '.04em', marginBottom: 2 }}>Routing number</div>
                     <button onClick={() => copy(bankDetails.routingNumber!, 'routing')} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: 'monospace', fontSize: 13, fontWeight: 600, color: '#323E48', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                      {bankDetails.routingNumber} {copied === 'routing' ? <ICheck style={{ color: '#77B32A' }} /> : <ICopy style={{ color: '#8892A0' }} />}
+                      {bankDetails.routingNumber} {copied === 'routing' ? <ICheck style={{ color: '#3B6AE8' }} /> : <ICopy style={{ color: '#8892A0' }} />}
                     </button>
                   </div>
                 )}
@@ -238,7 +238,7 @@ const FinancialAccountPage = () => {
             ) : hasAddress ? (
               <div style={{ fontSize: 12, color: '#8892A0', marginTop: 6, fontStyle: 'italic' }}>Bank details provisioning…</div>
             ) : (
-              <button onClick={() => createAddress()} disabled={isCreatingAddress} style={{ marginTop: 6, fontSize: 12, color: '#77B32A', background: 'none', border: 'none', cursor: isCreatingAddress ? 'not-allowed' : 'pointer', padding: 0, fontWeight: 600, opacity: isCreatingAddress ? 0.6 : 1 }}>
+              <button onClick={() => createAddress()} disabled={isCreatingAddress} style={{ marginTop: 6, fontSize: 12, color: '#3B6AE8', background: 'none', border: 'none', cursor: isCreatingAddress ? 'not-allowed' : 'pointer', padding: 0, fontWeight: 600, opacity: isCreatingAddress ? 0.6 : 1 }}>
                 {isCreatingAddress ? 'Requesting…' : '+ Request sort code & account number'}
               </button>
             )}
@@ -263,7 +263,7 @@ const FinancialAccountPage = () => {
             <button
               onClick={() => setIsMoveMoneyModalOpen(true)}
               disabled={isAccountPending || !financialAccount}
-              style={{ padding: '8px 14px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: !financialAccount ? 'not-allowed' : 'pointer', background: '#77B32A', color: '#fff', border: 'none', opacity: !financialAccount ? 0.5 : 1 }}
+              style={{ padding: '8px 14px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: !financialAccount ? 'not-allowed' : 'pointer', background: '#3B6AE8', color: '#fff', border: 'none', opacity: !financialAccount ? 0.5 : 1 }}
             >
               Move money
             </button>
@@ -312,7 +312,7 @@ const FinancialAccountPage = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              style={{ padding: '14px 0', marginRight: 24, fontSize: 13, fontWeight: 600, color: activeTab === tab ? '#77B32A' : '#8892A0', background: 'none', border: 'none', borderBottom: `2px solid ${activeTab === tab ? '#77B32A' : 'transparent'}`, cursor: 'pointer', textTransform: 'capitalize' as const }}
+              style={{ padding: '14px 0', marginRight: 24, fontSize: 13, fontWeight: 600, color: activeTab === tab ? '#3B6AE8' : '#8892A0', background: 'none', border: 'none', borderBottom: `2px solid ${activeTab === tab ? '#3B6AE8' : 'transparent'}`, cursor: 'pointer', textTransform: 'capitalize' as const }}
             >
               {tab === 'transactions' ? t('dashboard.expenses.financial-account.transactions') : t('dashboard.expenses.issuing-cards')}
             </button>
@@ -356,7 +356,7 @@ const FinancialAccountPage = () => {
                           )}
                         </td>
                         <td style={{ padding: '12px 16px' }}>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, background: tx.status === 'posted' ? '#f3f8e9' : '#FEF3C7', color: tx.status === 'posted' ? '#5a881f' : '#92400E' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, background: tx.status === 'posted' ? '#EFF4FF' : '#FEF3C7', color: tx.status === 'posted' ? '#3B6AE8' : '#92400E' }}>
                             {tx.status}
                           </span>
                         </td>

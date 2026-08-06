@@ -36,10 +36,13 @@ const saveState = (balance: number, transactions: WalletTxn[]) => {
   } catch {}
 };
 
-const ClearAcceptLogoGreen = () => (
+const AccountsIQLogoGreen = () => (
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 186 32' width='160' height='28'>
-    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={GREEN}>
-      ClearAccept
+    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill='white'>
+      accounts
+    </text>
+    <text x='97' y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={GREEN}>
+      IQ
     </text>
   </svg>
 );
@@ -150,12 +153,12 @@ export default function WalletDemoPage() {
         style={{ backgroundColor: DARK_BG }}
       >
         <div>
-          <ClearAcceptLogoGreen />
+          <AccountsIQLogoGreen />
           <p
             className='mt-3 text-xs tracking-[0.2em] uppercase font-semibold'
             style={{ color: 'rgba(255,255,255,0.45)' }}
           >
-            ClearAccept Wallet
+            AccountsIQ Wallet
           </p>
 
           <h1 className='mt-8 text-3xl font-bold leading-tight text-white'>
@@ -183,7 +186,7 @@ export default function WalletDemoPage() {
         </div>
 
         <p className='text-xs' style={{ color: 'rgba(255,255,255,0.3)' }}>
-          ClearAccept · Confidential · June 2026
+          AccountsIQ · Confidential · August 2026
         </p>
       </div>
 
@@ -222,7 +225,7 @@ export default function WalletDemoPage() {
 
         {/* Page heading */}
         <div className='px-8 pt-5 pb-3 border-b border-gray-100 flex-shrink-0'>
-          <h1 className='text-2xl font-bold text-gray-900'>ClearAccept Wallet</h1>
+          <h1 className='text-2xl font-bold text-gray-900'>AccountsIQ Wallet</h1>
           <p className='text-sm text-gray-500 mt-0.5'>Receive, allocate, and move your card-processing funds</p>
         </div>
 
@@ -300,7 +303,7 @@ export default function WalletDemoPage() {
                   <p className='text-xs font-semibold tracking-widest text-gray-400 uppercase mb-1'>Coming Soon</p>
                   <p className='text-white font-semibold text-sm'>Spend directly from your wallet</p>
                   <p className='text-gray-400 text-xs mt-0.5'>
-                    The ClearAccept Corporate Card draws funds straight from your available balance and pots — no top-ups, no waiting for settlements.
+                    The AccountsIQ Corporate Card draws funds straight from your available balance and pots — no top-ups, no waiting for settlements.
                   </p>
                 </div>
                 <div className='flex gap-2 flex-shrink-0'>

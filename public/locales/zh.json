@@ -214,10 +214,11 @@
       "title": "资本",
       "promotions": "促销",
       "financings": "融资",
-      "financing-promotion": "Financing Offer", "financing-application": "融资申请"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "融资申请"
     },
     "payments": {
-      "title": "支付",
+      "title": "Sales",
       "payment-method-settings": "支付方式设置",
       "settings": {
         "title": "设置"
@@ -242,29 +243,12 @@
       "title": "客户",
       "table": {
         "name": "姓名",
-        "email": "邮箱",
+        "email": "电子邮件",
         "phone": "电话",
         "address": "地址",
         "actions": "操作",
         "create-customer": "创建新客户",
         "delete": "删除"
-      }
-    },
-    "invoices": {
-      "title": "发票",
-      "table": {
-        "invoice": "发票",
-        "customer": "客户",
-        "amount": "金额",
-        "status": "状态",
-        "due-date": "到期日",
-        "actions": "操作",
-        "create-invoice": "创建新发票",
-        "delete": "删除",
-        "finalize": "确定",
-        "send": "发送",
-        "copy-link": "复制链接",
-        "download": "下载"
       }
     },
     "invoices": {
@@ -282,18 +266,6 @@
         "send": "发送",
         "copy-link": "复制链接",
         "download": "下载"
-      }
-    },
-    "customers": {
-      "title": "客户",
-      "table": {
-        "name": "姓名",
-        "email": "电子邮件",
-        "phone": "电话",
-        "address": "地址",
-        "actions": "操作",
-        "create-customer": "创建新客户",
-        "delete": "删除"
       }
     },
     "tax": {

@@ -12,10 +12,13 @@ import { useState } from 'react';
 const DARK_BG = '#1A1730';
 const AMBER = '#F59E0B';
 
-const ClearAcceptLogoAmber = () => (
+const AccountsIQLogoAmber = () => (
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 186 32' width='160' height='28'>
-    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={AMBER}>
-      ClearAccept
+    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill='white'>
+      accounts
+    </text>
+    <text x='97' y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={AMBER}>
+      IQ
     </text>
   </svg>
 );
@@ -36,7 +39,7 @@ export default function FinanceDemoPage() {
         style={{ backgroundColor: DARK_BG }}
       >
         <div>
-          <ClearAcceptLogoAmber />
+          <AccountsIQLogoAmber />
           <p
             className='mt-3 text-xs tracking-[0.2em] uppercase font-semibold'
             style={{ color: 'rgba(255,255,255,0.45)' }}
@@ -55,7 +58,7 @@ export default function FinanceDemoPage() {
               'Pre-approved offer embedded in the software where they run their business',
               'Customisable amount via slider — £5k to £45k',
               'Repayment breakdown — live as the merchant adjusts',
-              '"Powered by ClearAccept" — co-branded, seamlessly embedded',
+              '"Powered by AccountsIQ" — co-branded, seamlessly embedded',
             ].map((point) => (
               <li key={point} className='flex items-start gap-3'>
                 <span
@@ -69,7 +72,7 @@ export default function FinanceDemoPage() {
         </div>
 
         <p className='text-xs' style={{ color: 'rgba(255,255,255,0.3)' }}>
-          ClearAccept · Confidential · April 2026
+          AccountsIQ · Confidential · August 2026
         </p>
       </div>
 

@@ -243,7 +243,7 @@ export const CardDetail = ({ cardId, onBack }: CardDetailProps) => {
                       ? card.number.replace(/(.{4})/g, '$1 ').trim()
                       : `•••• •••• •••• ${card.last4}`}
                     {copiedField === 'number' && (
-                      <ClipboardDocumentCheckIcon className='inline-block ml-2 size-4 text-green-400' />
+                      <ClipboardDocumentCheckIcon className='inline-block ml-2 size-4 text-blue-400' />
                     )}
                   </button>
                   <div className='flex justify-between items-end'>
@@ -271,7 +271,7 @@ export const CardDetail = ({ cardId, onBack }: CardDetailProps) => {
                       <p className='text-sm font-mono'>
                         {String(card.exp_month).padStart(2, '0')}/{String(card.exp_year).slice(-2)}
                         {copiedField === 'expiry' && (
-                          <ClipboardDocumentCheckIcon className='inline-block ml-1 size-3 text-green-400' />
+                          <ClipboardDocumentCheckIcon className='inline-block ml-1 size-3 text-blue-400' />
                         )}
                       </p>
                     </button>
@@ -294,7 +294,7 @@ export const CardDetail = ({ cardId, onBack }: CardDetailProps) => {
                       <p className='text-sm font-mono'>
                         {showSensitive && card.cvc ? card.cvc : '•••'}
                         {copiedField === 'cvc' && (
-                          <ClipboardDocumentCheckIcon className='inline-block ml-1 size-3 text-green-400' />
+                          <ClipboardDocumentCheckIcon className='inline-block ml-1 size-3 text-blue-400' />
                         )}
                       </p>
                     </button>
@@ -476,7 +476,7 @@ export const CardDetail = ({ cardId, onBack }: CardDetailProps) => {
                               // Issuing transactions: negative = capture/spending (debit), positive = refund (credit)
                               const isDebit = txn.amount < 0;
                               return (
-                                <span className={isDebit ? 'text-red-600' : 'text-green-600'}>
+                                <span className={isDebit ? 'text-red-600' : 'text-blue-600'}>
                                   {isDebit ? '' : '+'}
                                   {formatPrice(
                                     txn.amount,

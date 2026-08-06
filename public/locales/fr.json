@@ -214,10 +214,11 @@
       "title": "Capital",
       "promotions": "Promotions",
       "financings": "Financements",
-      "financing-promotion": "Financing Offer", "financing-application": "Demande de financement"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "Demande de financement"
     },
     "payments": {
-      "title": "Paiements",
+      "title": "Sales",
       "payment-method-settings": "Paramètres des méthodes de paiement",
       "settings": {
         "title": "Paramètres"
@@ -242,58 +243,29 @@
       "title": "Clients",
       "table": {
         "name": "Nom",
-        "email": "Email",
-        "phone": "Téléphone",
-        "address": "Adresse",
-        "actions": "Actions",
-        "create-customer": "Créer un nouveau client",
-        "delete": "Supprimer"
-      }
-    },
-    "invoices": {
-      "title": "Factures",
-      "table": {
-        "invoice": "Facture",
-        "customer": "Client",
-        "amount": "Montant",
-        "status": "Statut",
-        "due-date": "Date d'échéance",
-        "actions": "Actions",
-        "create-invoice": "Créer une nouvelle facture",
-        "delete": "Supprimer",
-        "finalize": "Finaliser",
-        "send": "Envoyer",
-        "copy-link": "Copier le lien",
-        "download": "Télécharger"
-      }
-    },
-    "invoices": {
-      "title": "Factures",
-      "table": {
-        "invoice": "Facture",
-        "customer": "Client",
-        "amount": "Montant",
-        "status": "Statut",
-        "due-date": "Date d'échéance",
-        "actions": "Actions",
-        "create-invoice": "Créer une nouvelle facture",
-        "delete": "Supprimer",
-        "finalize": "Finaliser",
-        "send": "Envoyer",
-        "copy-link": "Copier le lien",
-        "download": "Télécharger"
-      }
-    },
-    "customers": {
-      "title": "Clients",
-      "table": {
-        "name": "Nom",
         "email": "E-mail",
         "phone": "Téléphone",
         "address": "Adresse",
         "actions": "Actions",
         "create-customer": "Créer un nouveau client",
         "delete": "Supprimer"
+      }
+    },
+    "invoices": {
+      "title": "Factures",
+      "table": {
+        "invoice": "Facture",
+        "customer": "Client",
+        "amount": "Montant",
+        "status": "Statut",
+        "due-date": "Date d'échéance",
+        "actions": "Actions",
+        "create-invoice": "Créer une nouvelle facture",
+        "delete": "Supprimer",
+        "finalize": "Finaliser",
+        "send": "Envoyer",
+        "copy-link": "Copier le lien",
+        "download": "Télécharger"
       }
     },
     "tax": {

@@ -214,10 +214,11 @@
       "title": "Capital",
       "promotions": "Promotions",
       "financings": "Financings",
-      "financing-promotion": "Financing Offer", "financing-application": "Financing Application"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "Financing Application"
     },
     "payments": {
-      "title": "Payments",
+      "title": "Sales",
       "payment-method-settings": "Payment Method Settings",
       "settings": {
         "title": "Settings"
@@ -265,35 +266,6 @@
         "send": "Send",
         "copy-link": "Copy link",
         "download": "Download"
-      }
-    },
-    "invoices": {
-      "title": "Invoices",
-      "table": {
-        "invoice": "Invoice",
-        "customer": "Customer",
-        "amount": "Amount",
-        "status": "Status",
-        "due-date": "Due Date",
-        "actions": "Actions",
-        "create-invoice": "Create new invoice",
-        "delete": "Delete",
-        "finalize": "Finalise",
-        "send": "Send",
-        "copy-link": "Copy link",
-        "download": "Download"
-      }
-    },
-    "customers": {
-      "title": "Customers",
-      "table": {
-        "name": "Name",
-        "email": "Email",
-        "phone": "Phone",
-        "address": "Address",
-        "actions": "Actions",
-        "create-customer": "Create new customer",
-        "delete": "Delete"
       }
     },
     "tax": {

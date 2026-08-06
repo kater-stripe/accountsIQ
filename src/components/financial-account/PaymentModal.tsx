@@ -29,19 +29,26 @@ type PaymentModalProps = {
   open: boolean;
   onClose: () => void;
   sourceFinancialAccount: Stripe.V2.MoneyManagement.FinancialAccount;
+  allFinancialAccounts?: Stripe.V2.MoneyManagement.FinancialAccount[];
+  initialRecipientId?: string;
 };
 
 export const PaymentModal = ({
   open,
   onClose,
   sourceFinancialAccount,
+  allFinancialAccounts,
+  initialRecipientId,
 }: PaymentModalProps) => {
   const { t } = useTranslation();
   const { stripeSecretKey } = useDemoConfig();
   const { account } = useDemoMerchant();
   const queryClient = useQueryClient();
 
-  const [recipientAccountId, setRecipientAccountId] = useState<string>('');
+  const [selectedFaId, setSelectedFaId] = useState<string>(sourceFinancialAccount.id);
+  const selectedFA = allFinancialAccounts?.find(fa => fa.id === selectedFaId) ?? sourceFinancialAccount;
+
+  const [recipientAccountId, setRecipientAccountId] = useState<string>(initialRecipientId ?? '');
   const [payoutMethodId, setPayoutMethodId] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [description, setDescription] = useState<string>('');
@@ -57,16 +64,16 @@ export const PaymentModal = ({
     any[]
   >([]);
 
-  // Get available currencies from source account
+  // Get available currencies from selected FA
   const availableCurrencies = Object.keys(
-    sourceFinancialAccount.balance?.available || {},
+    selectedFA.balance?.available || {},
   );
   const defaultCurrency = availableCurrencies[0] || 'usd';
   const [currency, setCurrency] = useState<string>(defaultCurrency);
 
   // Get available balance for selected currency
   const availableBalance =
-    sourceFinancialAccount.balance?.available?.[currency]?.value || 0;
+    selectedFA.balance?.available?.[currency]?.value || 0;
 
   // Fetch recipients that belong to the connected account (logged-in merchant)
   const {
@@ -124,6 +131,14 @@ export const PaymentModal = ({
     setPayoutMethodId('');
   }, [recipientAccountId]);
 
+  // Sync initialRecipientId and reset FA selection when modal opens
+  useEffect(() => {
+    if (open) {
+      setRecipientAccountId(initialRecipientId ?? '');
+      setSelectedFaId(sourceFinancialAccount.id);
+    }
+  }, [open, initialRecipientId, sourceFinancialAccount.id]);
+
   // Reset form when modal closes
   useEffect(() => {
     if (!open) {
@@ -175,7 +190,7 @@ export const PaymentModal = ({
 
     createPayment({
       connectedAccountId: account.id,
-      fromFinancialAccountId: sourceFinancialAccount.id,
+      fromFinancialAccountId: selectedFA.id,
       recipientAccountId,
       payoutMethodId,
       amount,
@@ -335,7 +350,7 @@ export const PaymentModal = ({
                   </DialogTitle>
                   <p className='mt-1 text-sm text-gray-500'>
                     {t('modals.payment.description', {
-                      accountName: sourceFinancialAccount.display_name,
+                      accountName: selectedFA.display_name,
                     })}
                   </p>
                 </div>
@@ -347,6 +362,21 @@ export const PaymentModal = ({
                 )}
 
                 <div className='mt-4 flex flex-col gap-y-4'>
+                  {/* Source Financial Account Selection */}
+                  {allFinancialAccounts && allFinancialAccounts.length > 1 && (
+                    <Select
+                      label='Pay from'
+                      value={selectedFaId}
+                      onChange={(value) => setSelectedFaId(value || sourceFinancialAccount.id)}
+                      options={allFinancialAccounts.map((fa) => ({
+                        value: fa.id,
+                        label: `${fa.display_name ?? fa.id} — ${Object.values(fa.balance?.available ?? {})[0] ? new Intl.NumberFormat('en-GB', { style: 'currency', currency: (Object.values(fa.balance!.available!)[0] as any).currency.toUpperCase() }).format((Object.values(fa.balance!.available!)[0] as any).value / 100) : '—'}`,
+                      }))}
+                      nullable={false}
+                      required
+                    />
+                  )}
+
                   {/* Recipient Account Selection */}
                   <div>
                     <Select

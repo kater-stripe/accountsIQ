@@ -8,7 +8,7 @@ export const CardStatusBadge = ({ status }: CardStatusBadgeProps) => {
   const getStatusClasses = () => {
     switch (status) {
       case 'active':
-        return 'bg-green-100 text-green-800';
+        return 'bg-blue-100 text-blue-700';
       case 'inactive':
         return 'bg-yellow-100 text-yellow-800';
       case 'canceled':

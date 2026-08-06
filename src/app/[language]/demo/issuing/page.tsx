@@ -29,10 +29,13 @@ const SPEND_CONTROLS = [
   { label: 'General Retail', allowed: false },
 ];
 
-const ClearAcceptLogoGreen = () => (
+const AccountsIQLogoGreen = () => (
   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 186 32' width='160' height='28'>
-    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={GREEN}>
-      ClearAccept
+    <text y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill='white'>
+      accounts
+    </text>
+    <text x='97' y='24' fontFamily='Arial, Helvetica, sans-serif' fontWeight='700' fontSize='22' fill={GREEN}>
+      IQ
     </text>
   </svg>
 );
@@ -90,12 +93,12 @@ export default function IssuingDemoPage() {
         style={{ backgroundColor: DARK_BG }}
       >
         <div>
-          <ClearAcceptLogoGreen />
+          <AccountsIQLogoGreen />
           <p
             className='mt-3 text-xs tracking-[0.2em] uppercase font-semibold'
             style={{ color: 'rgba(255,255,255,0.45)' }}
           >
-            ClearAccept Issuing
+            AccountsIQ Issuing
           </p>
 
           <h1 className='mt-8 text-3xl font-bold leading-tight text-white'>
@@ -106,7 +109,7 @@ export default function IssuingDemoPage() {
 
           <ul className='mt-8 space-y-5'>
             {[
-              'Corporate cards that draw directly from your ClearAccept Wallet — no bank top-ups needed',
+              'Corporate cards that draw directly from your AccountsIQ Wallet — no bank top-ups needed',
               'Merchant category controls — restrict spend to approved supplier types only',
               'Instant transaction visibility — every card spend reflected in your wallet immediately',
               'Per-card daily limits — defined by you, not your bank',
@@ -123,7 +126,7 @@ export default function IssuingDemoPage() {
         </div>
 
         <p className='text-xs' style={{ color: 'rgba(255,255,255,0.3)' }}>
-          ClearAccept · Confidential · June 2026
+          AccountsIQ · Confidential · August 2026
         </p>
       </div>
 
@@ -187,7 +190,7 @@ export default function IssuingDemoPage() {
                 style={{ background: `linear-gradient(135deg, ${DARK_BG} 0%, #2D2550 100%)` }}
               >
                 <div className='flex justify-between items-start'>
-                  <span className='text-white font-bold text-sm'>ClearAccept</span>
+                  <span className='text-white font-bold text-sm'>AccountsIQ</span>
                   <div className='flex'>
                     <div className='w-7 h-7 rounded-full' style={{ backgroundColor: '#EB001B', opacity: 0.8 }} />
                     <div className='w-7 h-7 rounded-full -ml-3' style={{ backgroundColor: '#F79E1B', opacity: 0.8 }} />

@@ -1,38 +1,19 @@
 'use client';
 
-import { Container } from '@/components/common/Container';
 import { SignUpCard } from '@/components/account/SignUpCard';
-import Image from 'next/image';
-import { useDemoConfig } from '@/context/DemoConfigContext';
-import { Logo } from '@/components/common/Logo';
 
 const SignUpPage = () => {
-  const { customHero } = useDemoConfig();
-
   return (
-    <div className='relative grow bg-gray-100'>
-      <div aria-hidden='true' className='absolute inset-0'>
-        <Image
-          src={customHero || '/img/hero/background.png'}
-          alt='Hero background'
-          width={0}
-          height={0}
-          sizes='100vw'
-          className='w-full h-full object-cover'
-          priority={true}
-        />
-      </div>
-      <div className='relative z-20'>
-        <Container className='py-30'>
-          {/**
-           * The container's max width is 7xl which is a little large for the sign up page.
-           * We'll add an additional container with a max width of 2xl to make the sign up card smaller.
-           */}
-          <div className='max-w-2xl mx-auto'>
-            <Logo className='h-10 mb-4 mx-auto' />
-            <SignUpCard />
+    <div className='relative grow bg-white flex items-center justify-center'>
+      <div className='w-full max-w-md px-6 py-12'>
+        <div className='text-center mb-8'>
+          <div className='inline-flex items-center gap-0 mb-2'>
+            <span className='text-3xl font-bold' style={{ color: '#1C2B47' }}>Accounts</span>
+            <span className='text-3xl font-bold' style={{ color: '#3B6AE8' }}>IQ</span>
           </div>
-        </Container>
+          <p className='text-sm text-gray-400'>Better begins now</p>
+        </div>
+        <SignUpCard />
       </div>
     </div>
   );

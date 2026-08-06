@@ -214,10 +214,11 @@
       "title": "資金調達",
       "promotions": "キャンペーン",
       "financings": "融資",
-      "financing-promotion": "Financing Offer", "financing-application": "融資申請"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "融資申請"
     },
     "payments": {
-      "title": "決済",
+      "title": "Sales",
       "payment-method-settings": "決済方法設定",
       "settings": {
         "title": "設定"
@@ -242,58 +243,29 @@
       "title": "顧客",
       "table": {
         "name": "名前",
-        "email": "メールアドレス",
-        "phone": "電話番号",
-        "address": "住所",
-        "actions": "操作",
-        "create-customer": "新しい顧客を作成",
-        "delete": "削除"
-      }
-    },
-    "invoices": {
-      "title": "請求書",
-      "table": {
-        "invoice": "請求書",
-        "customer": "顧客",
-        "amount": "金額",
-        "status": "ステータス",
-        "due-date": "支払期日",
-        "actions": "操作",
-        "create-invoice": "新しい請求書を作成",
-        "delete": "削除",
-        "finalize": "確定",
-        "send": "送信",
-        "copy-link": "リンクをコピー",
-        "download": "ダウンロード"
-      }
-    },
-    "invoices": {
-      "title": "請求書",
-      "table": {
-        "invoice": "請求書",
-        "customer": "顧客",
-        "amount": "金額",
-        "status": "ステータス",
-        "due-date": "支払期日",
-        "actions": "アクション",
-        "create-invoice": "新しい請求書を作成",
-        "delete": "削除",
-        "finalize": "確定",
-        "send": "送信",
-        "copy-link": "リンクをコピー",
-        "download": "ダウンロード"
-      }
-    },
-    "customers": {
-      "title": "顧客",
-      "table": {
-        "name": "名前",
         "email": "メール",
         "phone": "電話番号",
         "address": "住所",
         "actions": "アクション",
         "create-customer": "新しい顧客を作成",
         "delete": "削除"
+      }
+    },
+    "invoices": {
+      "title": "請求書",
+      "table": {
+        "invoice": "請求書",
+        "customer": "顧客",
+        "amount": "金額",
+        "status": "ステータス",
+        "due-date": "支払期日",
+        "actions": "アクション",
+        "create-invoice": "新しい請求書を作成",
+        "delete": "削除",
+        "finalize": "確定",
+        "send": "送信",
+        "copy-link": "リンクをコピー",
+        "download": "ダウンロード"
       }
     },
     "tax": {

@@ -33,7 +33,7 @@ export const Logo = ({ children, ...props }: LogoProps) => {
     <Link href={href}>
       <img
         src={customLogo || '/img/brand/logo.svg'}
-        alt='Sage Logo'
+        alt='AccountsIQ Logo'
         {...props}
       />
     </Link>

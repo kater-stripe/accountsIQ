@@ -214,10 +214,11 @@
       "title": "Capital",
       "promotions": "Promociones",
       "financings": "Financiaciones",
-      "financing-promotion": "Financing Offer", "financing-application": "Solicitud de financiación"
+      "financing-promotion": "Financing Offer",
+      "financing-application": "Solicitud de financiación"
     },
     "payments": {
-      "title": "Pagos",
+      "title": "Sales",
       "payment-method-settings": "Configuración de métodos de pago",
       "settings": {
         "title": "Configuración"
@@ -265,35 +266,6 @@
         "send": "Enviar",
         "copy-link": "Copiar enlace",
         "download": "Descargar"
-      }
-    },
-    "invoices": {
-      "title": "Facturas",
-      "table": {
-        "invoice": "Factura",
-        "customer": "Cliente",
-        "amount": "Importe",
-        "status": "Estado",
-        "due-date": "Fecha de vencimiento",
-        "actions": "Acciones",
-        "create-invoice": "Crear nueva factura",
-        "delete": "Eliminar",
-        "finalize": "Finalizar",
-        "send": "Enviar",
-        "copy-link": "Copiar enlace",
-        "download": "Descargar"
-      }
-    },
-    "customers": {
-      "title": "Clientes",
-      "table": {
-        "name": "Nombre",
-        "email": "Correo electrónico",
-        "phone": "Teléfono",
-        "address": "Dirección",
-        "actions": "Acciones",
-        "create-customer": "Crear nuevo cliente",
-        "delete": "Eliminar"
       }
     },
     "tax": {

@@ -85,7 +85,7 @@ export const SignUpCard = () => {
               // Fire-and-forget — don't block the redirect on FA creation failure.
               if (storerCapabilityEnabled && account?.id) {
                 createFinancialAccountAction({
-                  name: 'ClearAccept Wallet',
+                  name: 'AccountsIQ Wallet',
                   accountId: account.id,
                   stripeSecretKey,
                 }).catch((err) =>

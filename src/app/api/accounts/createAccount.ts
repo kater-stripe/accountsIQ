@@ -363,7 +363,7 @@ export const createAccount = async ({
   if (storerCapabilityEnabled) {
     try {
       await createFinancialAccount({
-        name: 'ClearAccept Wallet',
+        name: 'AccountsIQ Wallet',
         accountId: account.id,
         currency: 'gbp',
         stripeSecretKey,

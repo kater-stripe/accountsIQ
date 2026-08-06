@@ -176,7 +176,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     }
   }, [pathnameWithoutLanguage, account]);
 
-  const hideHeadings = pathnameWithoutLanguage === '/dashboard/onramp';
+  const hideHeadings = ['/dashboard/onramp', '/dashboard/wallet', '/dashboard/suppliers'].includes(pathnameWithoutLanguage);
 
   /**
    * We're not signed in or have not completed onboarding. Wait for redirect to home page.
@@ -237,7 +237,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             {!hideHeadings && (
               <div style={{ marginBottom: 8 }}>
                 <h1 style={{ fontSize: 28, fontWeight: 700, color: '#323E48', letterSpacing: '-0.02em', margin: 0 }}>{headings.title}</h1>
-                <div style={{ height: 3, width: 40, background: '#77B32A', borderRadius: 2, marginTop: 8 }} />
+                <div style={{ height: 3, width: 40, background: '#3B6AE8', borderRadius: 2, marginTop: 8 }} />
                 {(headings as { subtitle?: string }).subtitle && (
                   <p style={{ fontSize: 14, color: '#8892A0', marginTop: 4 }}>{(headings as { subtitle?: string }).subtitle}</p>
                 )}
