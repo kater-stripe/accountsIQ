@@ -180,28 +180,31 @@ const AddSupplierModal = ({
   );
 };
 
+const TH_STYLE: React.CSSProperties = { textAlign: 'left', padding: '10px 20px', fontSize: 11, fontWeight: 700, color: '#8892A0', letterSpacing: '.04em', textTransform: 'uppercase', background: '#F9FAFB', borderBottom: '1px solid #F0F0F0' };
+const TD_STYLE: React.CSSProperties = { padding: '13px 20px', borderTop: '1px solid #F4F4F4', fontSize: 13, color: '#4D5761' };
+
 // ─── Item Invoices Tab ────────────────────────────────────────────────────────
 const ItemInvoicesTab = () => {
   const { language } = useDemoConfig();
   const { bills } = useFakeBills();
   const hasBills = bills && bills.length > 0;
 
-  const statusStyle = (status: string) =>
+  const statusStyle = (status: string): React.CSSProperties =>
     status === 'paid'
       ? { background: '#D1FAE5', color: '#065F46' }
       : { background: `${BLUE}18`, color: BLUE };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-      <table className="w-full text-sm">
+    <div style={{ background: '#fff', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', overflow: 'hidden' }}>
+      <table className="w-full" style={{ borderCollapse: 'collapse' }}>
         <thead>
-          <tr style={{ background: '#F9FAFB' }}>
-            <th className="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Supplier</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Invoice #</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Amount</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Status</th>
-            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Due Date</th>
-            <th className="text-right px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Actions</th>
+          <tr>
+            <th style={TH_STYLE}>Supplier</th>
+            <th style={TH_STYLE}>Invoice #</th>
+            <th style={TH_STYLE}>Amount</th>
+            <th style={TH_STYLE}>Status</th>
+            <th style={TH_STYLE}>Due Date</th>
+            <th style={{ ...TH_STYLE, textAlign: 'right' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -210,32 +213,30 @@ const ItemInvoicesTab = () => {
               ? new Date(bill.dueDate * 1000).toLocaleDateString(language)
               : '-';
             return (
-              <tr key={bill.id} className="border-t border-gray-100 hover:bg-blue-50/40 transition-colors">
-                <td className="px-5 py-3.5">
-                  <div className="flex items-center gap-3">
+              <tr key={bill.id} style={{ cursor: 'default' }}>
+                <td style={TD_STYLE}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     {(() => { const av = getAvatar(bill.supplierName); return (
-                      <span className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold select-none"
-                        style={{ background: av.bg, color: av.color }}>{av.initials}</span>
+                      <span style={{ width: 32, height: 32, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, background: av.bg, color: av.color }}>{av.initials}</span>
                     ); })()}
-                    <span className="font-medium text-gray-800">{bill.supplierName}</span>
+                    <span style={{ fontWeight: 600, color: '#323E48' }}>{bill.supplierName}</span>
                   </div>
                 </td>
-                <td className="px-4 py-3.5 font-mono text-sm font-semibold" style={{ color: BLUE }}>{bill.invoiceNumber}</td>
-                <td className="px-4 py-3.5 font-semibold tabular-nums text-gray-800">
+                <td style={{ ...TD_STYLE, fontFamily: 'monospace', fontWeight: 700, color: BLUE }}>{bill.invoiceNumber}</td>
+                <td style={{ ...TD_STYLE, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: '#323E48' }}>
                   {formatPrice(bill.amount, language, bill.currency as CurrencyCode)}
                 </td>
-                <td className="px-4 py-3.5">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold" style={statusStyle(bill.status)}>
+                <td style={TD_STYLE}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', padding: '3px 10px', borderRadius: 999, fontSize: 11, fontWeight: 700, ...statusStyle(bill.status) }}>
                     {bill.status.charAt(0).toUpperCase() + bill.status.slice(1)}
                   </span>
                 </td>
-                <td className="px-4 py-3.5 text-gray-500">{dueDate}</td>
-                <td className="px-5 py-3.5 text-right">
+                <td style={{ ...TD_STYLE, color: '#8892A0' }}>{dueDate}</td>
+                <td style={{ ...TD_STYLE, textAlign: 'right' }}>
                   {bill.status === 'open' && (
                     <button
                       onClick={() => window.open(`/${language}/bills/${bill.id}/pay`, '_blank')}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-90"
-                      style={{ backgroundColor: BLUE }}
+                      style={{ padding: '5px 14px', borderRadius: 4, fontSize: 12, fontWeight: 600, color: '#fff', background: BLUE, border: 'none', cursor: 'pointer' }}
                     >
                       Pay
                     </button>
@@ -243,7 +244,7 @@ const ItemInvoicesTab = () => {
                   {bill.status === 'paid' && (
                     <button
                       onClick={() => window.open(`/${language}/bills/${bill.id}/pay`, '_blank')}
-                      className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors"
+                      style={{ padding: '5px 14px', borderRadius: 4, fontSize: 12, fontWeight: 600, color: '#8892A0', background: 'none', border: '1px solid #E5E7EB', cursor: 'pointer' }}
                     >
                       View
                     </button>
@@ -253,19 +254,19 @@ const ItemInvoicesTab = () => {
             );
           }) : (
             <tr>
-              <td colSpan={6}>
-                <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-                  <DocumentTextIcon className="size-10 mb-3" />
-                  <p className="text-sm font-medium text-gray-500">No invoices yet</p>
-                  <p className="text-sm text-gray-400 mt-1">Item invoices will appear here once created.</p>
-                </div>
+              <td colSpan={6} style={{ padding: '48px 20px', textAlign: 'center' }}>
+                <DocumentTextIcon style={{ width: 40, height: 40, color: '#D1D5DB', margin: '0 auto 12px' }} />
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#8892A0', margin: '0 0 4px' }}>No invoices yet</p>
+                <p style={{ fontSize: 13, color: '#B0B8C2', margin: 0 }}>Item invoices will appear here once created.</p>
               </td>
             </tr>
           )}
         </tbody>
       </table>
       {hasBills && (
-        <p className="text-xs text-gray-400 px-5 py-3 border-t border-gray-100">{bills.length} invoice{bills.length !== 1 ? 's' : ''}</p>
+        <div style={{ padding: '10px 20px', borderTop: '1px solid #F4F4F4', fontSize: 12, color: '#8892A0' }}>
+          {bills.length} invoice{bills.length !== 1 ? 's' : ''}
+        </div>
       )}
     </div>
   );
@@ -325,15 +326,22 @@ const SuppliersPage = () => {
   };
 
   return (
-    <div className="bg-white min-h-full">
+    <div>
 
-      {/* Page header */}
-      <div className="flex items-center justify-between mb-0">
-        <h1 className="text-2xl font-bold text-gray-900">Purchases</h1>
+      {/* Summary bar */}
+      <div style={{ background: '#fff', borderTop: `4px solid ${BLUE}`, borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', padding: '22px 28px', marginBottom: 22, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap' as const }}>
+        <div style={{ flex: '1 1 240px' }}>
+          <div style={{ fontSize: 11, color: '#8892A0', fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase' as const, marginBottom: 6 }}>Purchases</div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: '#323E48', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {isPending ? '—' : `${allRows.length} suppliers`}
+          </div>
+          <div style={{ fontSize: 12, color: '#8892A0', marginTop: 6 }}>
+            {DEMO_SUPPLIERS.length} direct · {allRows.length - DEMO_SUPPLIERS.length} via Stripe
+          </div>
+        </div>
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-semibold"
-          style={{ backgroundColor: BLUE }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', background: BLUE, color: '#fff', border: 'none' }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -343,14 +351,16 @@ const SuppliersPage = () => {
       </div>
 
       {/* Sub-tabs */}
-      <div className="flex gap-0 border-b border-gray-200 mt-5 mb-6">
+      <div style={{ display: 'flex', borderBottom: '1px solid #E5E7EB', marginBottom: 20 }}>
         {TABS.map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className="pb-3 px-4 text-sm font-medium whitespace-nowrap"
             style={{
-              color: tab === activeTab ? BLUE : '#9CA3AF',
+              paddingBottom: 12, paddingLeft: 16, paddingRight: 16, paddingTop: 0,
+              fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' as const,
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: tab === activeTab ? BLUE : '#8892A0',
               borderBottom: tab === activeTab ? `2px solid ${BLUE}` : '2px solid transparent',
             }}
           >
@@ -363,91 +373,79 @@ const SuppliersPage = () => {
       {activeTab === 'Item Invoices' && <ItemInvoicesTab />}
 
       {/* Suppliers table card */}
-      {activeTab !== 'Item Invoices' && <><div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        {isPending ? (
-          <div className="p-6 space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <Skeleton className="h-9 w-9 rounded-full" />
-                <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-48" />
-                  <Skeleton className="h-3 w-24" />
-                </div>
-                <Skeleton className="h-4 w-20" />
+      {activeTab !== 'Item Invoices' && (
+        <>
+          <div style={{ background: '#fff', borderRadius: 6, boxShadow: '0 2px 8px rgba(0,0,0,.08)', overflow: 'hidden' }}>
+            {isPending ? (
+              <div style={{ padding: 24, display: 'flex', flexDirection: 'column' as const, gap: 16 }}>
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                    <Skeleton className="h-9 w-9 rounded-full" />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' as const, gap: 6 }}>
+                      <Skeleton className="h-4 w-48" />
+                      <Skeleton className="h-3 w-24" />
+                    </div>
+                    <Skeleton className="h-4 w-20" />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr style={{ background: '#F9FAFB' }}>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Supplier</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Code</th>
-                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Ccy</th>
-                <th className="text-right px-5 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wide">Balance</th>
-                <th className="px-4 py-3" />
-              </tr>
-            </thead>
-            <tbody>
-              {allRows.map((row, idx) => {
-                const av = getAvatar(row.name);
-                return (
-                  <tr
-                    key={row.id}
-                    className="border-t border-gray-100 hover:bg-blue-50/40 transition-colors"
-                  >
-                    {/* Supplier name + avatar */}
-                    <td className="px-5 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <span
-                          className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold select-none"
-                          style={{ background: av.bg, color: av.color }}
-                        >
-                          {av.initials}
-                        </span>
-                        <span className="font-medium text-gray-800">{row.name}</span>
-                        {row.isStripe && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold"
-                            style={{ background: `${BLUE}12`, color: BLUE }}>
-                            <svg width="10" height="10" viewBox="0 0 24 24" fill={BLUE}><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
-                            Stripe
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    {/* Code */}
-                    <td className="px-4 py-3.5 font-mono text-sm font-semibold" style={{ color: BLUE }}>
-                      {row.code}
-                    </td>
-                    {/* Currency */}
-                    <td className="px-4 py-3.5 text-gray-500">{row.ccy}</td>
-                    {/* Balance */}
-                    <td className="px-5 py-3.5 text-right font-semibold tabular-nums" style={{ color: row.balance && row.balance > 0 ? NAVY : '#9CA3AF' }}>
-                      {row.balance !== null ? fmtBalance(row.balance) : <span className="text-xs text-gray-400 font-normal">—</span>}
-                    </td>
-                    {/* Pay action */}
-                    <td className="px-4 py-3.5 text-right">
-                      {primaryFA && (
-                        <button
-                          onClick={() => setPaymentSupplier({ id: row.isStripe ? row.id : null, name: row.name })}
-                          className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-90"
-                          style={{ backgroundColor: BLUE }}
-                        >
-                          Pay
-                        </button>
-                      )}
-                    </td>
+            ) : (
+              <table className="w-full" style={{ borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={TH_STYLE}>Supplier</th>
+                    <th style={TH_STYLE}>Code</th>
+                    <th style={TH_STYLE}>Ccy</th>
+                    <th style={{ ...TH_STYLE, textAlign: 'right' }}>Balance</th>
+                    <th style={{ ...TH_STYLE, width: 80 }} />
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-      {/* Row count */}
-      <p className="text-xs text-gray-400 mt-3 pl-1">{allRows.length} suppliers</p>
-      </>}
+                </thead>
+                <tbody>
+                  {allRows.map((row) => {
+                    const av = getAvatar(row.name);
+                    return (
+                      <tr key={row.id}>
+                        <td style={TD_STYLE}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <span style={{ width: 32, height: 32, borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, userSelect: 'none' as const, background: av.bg, color: av.color }}>
+                              {av.initials}
+                            </span>
+                            <span style={{ fontWeight: 600, color: '#323E48' }}>{row.name}</span>
+                            {row.isStripe && (
+                              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: `${BLUE}12`, color: BLUE }}>
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill={BLUE}><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+                                Stripe
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td style={{ ...TD_STYLE, fontFamily: 'monospace', fontWeight: 700, color: BLUE }}>{row.code}</td>
+                        <td style={{ ...TD_STYLE, color: '#8892A0' }}>{row.ccy}</td>
+                        <td style={{ ...TD_STYLE, textAlign: 'right', fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: row.balance && row.balance > 0 ? NAVY : '#B0B8C2' }}>
+                          {row.balance !== null ? fmtBalance(row.balance) : '—'}
+                        </td>
+                        <td style={{ ...TD_STYLE, textAlign: 'right' }}>
+                          {primaryFA && (
+                            <button
+                              onClick={() => setPaymentSupplier({ id: row.isStripe ? row.id : null, name: row.name })}
+                              style={{ padding: '5px 14px', borderRadius: 4, fontSize: 12, fontWeight: 600, color: '#fff', background: BLUE, border: 'none', cursor: 'pointer' }}
+                            >
+                              Pay
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+          <div style={{ fontSize: 12, color: '#8892A0', marginTop: 12, paddingLeft: 4 }}>
+            {allRows.length} suppliers
+          </div>
+        </>
+      )}
 
       {/* Add Supplier Modal */}
       <AddSupplierModal open={modalOpen} onClose={() => setModalOpen(false)} onSuccess={handleSuccess} />
