@@ -4,10 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-This is the **ClearAccept** demo — a fork of the Stripe `demoeng-zenflow` demo (`sage` branch). It is a fictional embedded-finance SaaS platform for service-based merchants, used for sales demos at Stripe. The primary demo surfaces are three presentation-style split-screen slides:
+This is the **AccountsIQ** demo — a fork of the Stripe `demoeng-zenflow` demo (`sage` branch). It is a fictional cloud accounting and embedded-finance SaaS platform for mid-market businesses, used for sales demos at Stripe. The demo persona is **Eric Harmon** at **Triathlon Ireland**.
+
+The primary demo surfaces are a full dashboard and three presentation-style split-screen slides:
 
 - `/en/demo/finance` — Merchant Finance (Stripe Capital embedded component, live Stripe data)
-- `/en/demo/wallet` — ClearAccept Wallet (interactive mock wallet with localStorage state)
+- `/en/demo/wallet` — AccountsIQ Wallet (interactive mock wallet with localStorage state)
 - `/en/demo/issuing` — Corporate Card (interactive mock issuing with localStorage state)
 
 The wallet and issuing slides share state via the `ca_demo_wallet` localStorage key to simulate a live balance update when a card spend is made.
@@ -29,7 +31,7 @@ There are no test commands — this repo has no test suite.
 
 ## Environment Setup
 
-`.env.local` already exists with ClearAccept defaults (`CURRENCY=gbp`, dark sidebar, `DEMO_NAME=clearaccept`). Do not commit real keys.
+`.env.local` already exists with AccountsIQ defaults (`CURRENCY=gbp`, dark sidebar, `DEMO_NAME=clearaccept`). Do not commit real keys.
 
 ## Architecture
 
@@ -137,18 +139,18 @@ Used from `@stripe/react-connect-js`. Import `loadConnectAndInitialize` from `@s
 
 `@demoeng/utils` and `@demoeng/tools-panel` are installed from `github:stripe-demos/demoeng-*`. They must stay in `transpilePackages` in `next.config.mjs`.
 
-## ClearAccept-Specific Customizations
+## AccountsIQ-Specific Customizations
 
 Changes made from the upstream `sage` branch:
 
 | File | Change |
 |------|--------|
-| `public/img/brand/logo.svg` | ClearAccept wordmark (green `#00D639`) |
+| `public/img/brand/logo.svg` | AccountsIQ wordmark (green `#00D639`) |
 | `public/img/brand/icon.svg` | Green "C" icon |
-| `src/app/[language]/layout.tsx` | Page title → "ClearAccept" |
+| `src/app/[language]/layout.tsx` | Page title → "AccountsIQ" |
 | `.env.local` | `CURRENCY=gbp`, dark sidebar, `DEMO_NAME=clearaccept` |
 | `src/app/[language]/demo/finance/page.tsx` | Merchant Finance split-screen slide (Stripe Capital) |
-| `src/app/[language]/demo/wallet/page.tsx` | ClearAccept Wallet slide — interactive, localStorage-backed balance |
+| `src/app/[language]/demo/wallet/page.tsx` | AccountsIQ Wallet slide — interactive, localStorage-backed balance |
 | `src/app/[language]/demo/issuing/page.tsx` | Corporate Card slide — simulates card spend, writes to localStorage |
 | `src/constants/stripeApiVersion.ts` | `2026-06-24.preview` |
 | `src/app/api/accounts/createAccount.ts` | v2 `money_manager` config, `buildBusinessStorage()` helper |
