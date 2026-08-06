@@ -89,7 +89,7 @@ export const HandleCallbacksProvider = ({ children }: PropsWithChildren) => {
       return `${window.location.origin}/${language}/storefront/${account?.id}/checkout/success`;
     }
 
-    return `${window.location.origin}/${language}/dashboard/payments`;
+    return `${window.location.origin}/${language}/dashboard/sales`;
   }, [pathname, language]);
 
   const returnUrl = useMemo(() => {

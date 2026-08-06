@@ -37,6 +37,7 @@ const ReportsPage = () => {
     queryKey: ['financial-accounts', account?.id, stripeSecretKey],
     queryFn: () => getFinancialAccountsAction({ accountId: account!.id, stripeSecretKey }),
     enabled: !!account,
+    staleTime: 0,
   });
 
   const faIds = useMemo(() => financialAccounts?.map(fa => fa.id) ?? [], [financialAccounts]);
@@ -52,6 +53,7 @@ const ReportsPage = () => {
       return results.flat();
     },
     enabled: !!account && faIds.length > 0,
+    staleTime: 0,
   });
 
   const isLoading = faLoading || txLoading;
@@ -264,7 +266,7 @@ const ReportsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {(allTx ?? []).slice(0, 20).map((tx, i) => {
+            {(allTx ?? []).slice().sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()).slice(0, 20).map((tx, i) => {
               const impact = tx.balance_impact?.available?.value ?? 0;
               const isCredit = impact >= 0;
               const currency = tx.balance_impact?.available?.currency ?? tx.amount?.currency;

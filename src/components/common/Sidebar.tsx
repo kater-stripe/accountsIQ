@@ -21,7 +21,7 @@ export const Sidebar = ({ onMobileMenuClose }: SidebarProps) => {
   const navItems = [
     { label: 'Home',            href: `/${language}/dashboard` },
     { label: 'Favourites',      href: `/${language}/dashboard/favourites`, disabled: true },
-    { label: 'Sales',           href: `/${language}/dashboard/payments` },
+    { label: 'Sales',           href: `/${language}/dashboard/sales` },
     { label: 'Purchases',       href: `/${language}/dashboard/suppliers` },
     { label: 'Items',               href: `/${language}/dashboard/items`, disabled: true },
     { label: 'Financial Accounts',  href: `/${language}/dashboard/financial-accounts` },

@@ -33,7 +33,7 @@ export const AIWizard = () => {
     const openCount = openBills.length;
 
     // Pages where we show the approvals suggestion
-    const approvalSuggestionPages = ['/dashboard/wallet', '/dashboard', '/dashboard/suppliers'];
+    const approvalSuggestionPages = ['/dashboard', '/dashboard/suppliers'];
     const isOnApprovalPage = approvalSuggestionPages.includes(pathnameWithoutLanguage);
 
     const shouldShowApprovalSuggestion = useMemo(() => {
@@ -42,7 +42,7 @@ export const AIWizard = () => {
     }, [isSignedIn, account, isOnApprovalPage]);
 
     const handleApprovalAction = async () => {
-        router.push(`/${language}/dashboard/suppliers`);
+        router.push(`/${language}/dashboard/suppliers?tab=item-invoices`);
         setIsOpen(false);
         setIsMinimized(true);
     };
@@ -61,9 +61,13 @@ export const AIWizard = () => {
         return null;
     }, [shouldShowApprovalSuggestion, openCount]);
 
-    // Auto-expand when there's a new suggestion on a new route
+    // Auto-expand only on the home dashboard; collapse when navigating away
     useEffect(() => {
-        // Only auto-show if we have a suggestion and haven't shown it on this route yet
+        if (pathnameWithoutLanguage !== '/dashboard') {
+            setIsOpen(false);
+            setIsMinimized(true);
+            return;
+        }
         if (currentSuggestion && lastShownOnRoute !== pathnameWithoutLanguage) {
             setIsOpen(true);
             setIsMinimized(false);

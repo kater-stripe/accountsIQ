@@ -83,7 +83,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           title: t('dashboard.capital.title'),
         };
       }
-      case '/dashboard/payments': {
+      case '/dashboard/sales': {
         return {
           title: t('dashboard.payments.title'),
         };
@@ -108,21 +108,21 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           title: t('dashboard.reports.title'),
         };
       }
-      case '/dashboard/payments/terminal/pos':
+      case '/dashboard/sales/terminal/pos':
         return {
           title: t('dashboard.terminal.pos.title'),
         };
-      case '/dashboard/payments/terminal/settings': {
+      case '/dashboard/sales/terminal/settings': {
         return {
           title: t('dashboard.terminal.settings.title'),
         };
       }
-      case '/dashboard/payments/terminal/shop': {
+      case '/dashboard/sales/terminal/shop': {
         return {
           title: t('dashboard.terminal.shop.title'),
         };
       }
-      case '/dashboard/payments/settings': {
+      case '/dashboard/sales/settings': {
         return {
           title: t('dashboard.payments.settings.title'),
         };
@@ -132,7 +132,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           title: t('dashboard.customers.title'),
         };
       }
-      case '/dashboard/payments/invoices': {
+      case '/dashboard/sales/invoices': {
         return {
           title: t('dashboard.invoices.title'),
         };
@@ -176,7 +176,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     }
   }, [pathnameWithoutLanguage, account]);
 
-  const hideHeadings = ['/dashboard/onramp', '/dashboard/wallet', '/dashboard/suppliers'].includes(pathnameWithoutLanguage);
+  const hideHeadings = ['/dashboard/onramp', '/dashboard', '/dashboard/suppliers'].includes(pathnameWithoutLanguage);
 
   /**
    * We're not signed in or have not completed onboarding. Wait for redirect to home page.

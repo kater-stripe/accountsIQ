@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useDemoConfig } from '@/context/DemoConfigContext';
 import { useDemoMerchant } from '@/context/DemoMerchantContext';
@@ -278,9 +279,12 @@ const SuppliersPage = () => {
   const { account } = useDemoMerchant();
   const queryClient = useQueryClient();
 
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab') === 'item-invoices' ? 'Item Invoices' : 'Suppliers';
+
   const [modalOpen, setModalOpen] = useState(false);
   const [toast, setToast] = useState('');
-  const [activeTab, setActiveTab] = useState('Suppliers');
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [paymentSupplier, setPaymentSupplier] = useState<{ id: string | null; name: string } | null>(null);
 
   const { data: financialAccounts } = useQuery({
@@ -300,12 +304,12 @@ const SuppliersPage = () => {
 
   const STRIPE_BALANCES = [4_210.50, 1_875.00, 9_340.75, 620.00, 2_155.30, 7_890.00, 3_480.25, 510.00];
 
-  const demoNames = new Set(DEMO_SUPPLIERS.map(s => s.name.toLowerCase()));
+  const demoNames = DEMO_SUPPLIERS.map(s => s.name.toLowerCase());
 
   const stripeRows = (recipients ?? [])
     .filter(r => {
       const name = (r.display_name ?? r.contact_email ?? '').toLowerCase();
-      return !demoNames.has(name);
+      return !demoNames.some(d => name.includes(d) || d.includes(name));
     })
     .map((r, i) => {
       const name = r.display_name ?? r.contact_email ?? 'Unknown';
