@@ -42,7 +42,7 @@ export const AIWizard = () => {
     }, [isSignedIn, account, isOnApprovalPage]);
 
     const handleApprovalAction = async () => {
-        router.push(`/${language}/dashboard/suppliers?tab=item-invoices`);
+        router.push(`/${language}/dashboard/suppliers`);
         setIsOpen(false);
         setIsMinimized(true);
     };
@@ -50,10 +50,9 @@ export const AIWizard = () => {
     // Current suggestion based on route and state
     const currentSuggestion: Suggestion | null = useMemo(() => {
         if (shouldShowApprovalSuggestion) {
-            const count = openCount > 0 ? openCount : 14;
             return {
                 id: 'pending-approvals',
-                message: `Action Required: You have ${count} supplier payment${count !== 1 ? 's' : ''} pending authorisation, including scheduled invoices and batch disbursements. Timely approval ensures uninterrupted supplier relationships and avoids late payment fees.`,
+                message: `Action Required: You have supplier payments pending authorisation, including scheduled invoices and batch disbursements. Timely approval ensures uninterrupted supplier relationships and avoids late payment fees.`,
                 actionLabel: 'Review pending payments',
                 action: handleApprovalAction,
             };

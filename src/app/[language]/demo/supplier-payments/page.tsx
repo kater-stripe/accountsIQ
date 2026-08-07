@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // ─── Brand (exact from screenshots) ──────────────────────────────────────────
 const SIDEBAR   = '#1C2B47';   // dark navy
@@ -12,7 +12,7 @@ const AMBER_T   = '#B45309';
 const AMBER_BG  = '#FEF3C7';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type Screen = 'home' | 'list' | 'new-payment' | 'post-approval' | 'batch' | 'processing' | 'complete';
+type Screen = 'home' | 'list' | 'new-payment' | 'post-approval' | 'batch' | 'fx-quote' | 'processing' | 'complete';
 type PayStatus = 'pending' | 'submitted' | 'in_flight' | 'settled';
 
 interface PayLine { id: string; supplier: string; ref: string; ccy: string; amt: number; bcAmt: number; status: PayStatus; }
@@ -468,7 +468,7 @@ const BatchScreen = ({ nav }: { nav: (s: Screen) => void }) => (
           Edit
         </button>
         <button
-          onClick={() => nav('processing')}
+          onClick={() => nav('fx-quote')}
           className="flex items-center gap-2 px-5 py-2 rounded-lg text-white text-sm font-semibold hover:opacity-90"
           style={{ backgroundColor: BLUE }}
         >
@@ -597,6 +597,147 @@ const CompleteScreen = ({ onReset }: { onReset: () => void }) => (
   </div>
 );
 
+// ─── FX Quote Screen ──────────────────────────────────────────────────────────
+const FX_GROUPS = [
+  {
+    pair: 'GBP → USD', rate: '1 GBP = 1.2812 USD', rateShort: '1.2812',
+    lines: BATCH_LINES.filter(l => l.ccy === 'USD'),
+    gbpTotal: BATCH_LINES.filter(l => l.ccy === 'USD').reduce((s, l) => s + l.bcAmt, 0),
+    fee: 'No additional fee',
+    rail: 'SWIFT / FX',
+  },
+  {
+    pair: 'GBP → EUR', rate: '1 GBP = 1.1751 EUR', rateShort: '1.1751',
+    lines: BATCH_LINES.filter(l => l.ccy === 'EUR'),
+    gbpTotal: BATCH_LINES.filter(l => l.ccy === 'EUR').reduce((s, l) => s + l.bcAmt, 0),
+    fee: 'GBP 1.00 cross-border fee',
+    rail: 'SEPA',
+  },
+];
+
+const FxQuoteScreen = ({ nav }: { nav: (s: Screen) => void }) => {
+  const [secs, setSecs] = useState(300);
+  const quoteId = 'obpq_1Abc2Def3Ghi4Jkl';
+
+  useEffect(() => {
+    const t = setInterval(() => setSecs(s => Math.max(0, s - 1)), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  const expired = secs === 0;
+  const urgentColor = secs < 60 ? '#DC2626' : BLUE;
+
+  return (
+    <div className="flex-1 overflow-y-auto p-8 bg-white">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-5">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">FX Rate Quote</h1>
+          <p className="text-xs text-gray-400 mt-1 font-mono">Quote {quoteId} · 2 currency pairs · GBP {BC_TOTAL.toFixed(2)} total</p>
+        </div>
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold flex-shrink-0"
+          style={{ backgroundColor: expired ? '#FEF2F2' : '#EEF2FF', color: expired ? '#DC2626' : urgentColor }}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {expired ? 'Quote expired — request a new one' : `Rate locked · expires in ${fmtTime(secs)}`}
+        </div>
+      </div>
+
+      {/* Info callout */}
+      <div
+        className="rounded-xl px-4 py-3 mb-6 text-sm leading-relaxed"
+        style={{ backgroundColor: '#EEF2FF', borderLeft: `3px solid ${BLUE}` }}
+      >
+        <span className="font-semibold" style={{ color: BLUE }}>How FX quotes work: </span>
+        <span className="text-gray-600">
+          Rates are locked for <strong>5 minutes</strong> — quotes are fetched at payment submission, not at approval time.
+          The locked exchange rate and any fees post back to your General Ledger automatically on settlement.
+          If authorisation takes longer than 5 minutes, AccountsIQ requests a fresh quote automatically.
+        </span>
+      </div>
+
+      {/* Currency groups */}
+      <div className="flex flex-col gap-4 mb-6">
+        {FX_GROUPS.map(g => (
+          <div key={g.pair} className="rounded-xl border border-gray-200 overflow-hidden">
+            {/* Group header */}
+            <div className="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-200">
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-gray-800 text-sm">{g.pair}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full text-gray-500 bg-white border border-gray-200">{g.rail}</span>
+              </div>
+              <div className="text-right">
+                <div className="text-sm font-semibold text-gray-700">GBP {g.gbpTotal.toFixed(2)}</div>
+                <div className="text-xs text-gray-400 mt-0.5">Rate: {g.rate}</div>
+              </div>
+            </div>
+            {/* Lines */}
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left px-5 py-2 text-xs font-medium text-gray-400">Supplier</th>
+                  <th className="text-left px-5 py-2 text-xs font-medium text-gray-400">Reference</th>
+                  <th className="text-right px-5 py-2 text-xs font-medium text-gray-400">Payment amt ({g.lines[0]?.ccy})</th>
+                  <th className="text-right px-5 py-2 text-xs font-medium text-gray-400">Debit (GBP)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.lines.map(l => (
+                  <tr key={l.id} className="border-b border-gray-50">
+                    <td className="px-5 py-2.5 text-gray-800">{l.supplier}</td>
+                    <td className="px-5 py-2.5 text-gray-500 font-mono text-xs">{l.ref}</td>
+                    <td className="px-5 py-2.5 text-right text-gray-700">{l.amt.toFixed(2)}</td>
+                    <td className="px-5 py-2.5 text-right font-medium text-gray-800">{l.bcAmt.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* Fee row */}
+            <div className="flex items-center justify-between px-5 py-2.5 bg-gray-50 border-t border-gray-100">
+              <span className="text-xs text-gray-400">Estimated fee</span>
+              <span className="text-xs font-medium text-gray-600">{g.fee}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-end items-center gap-3">
+        <button
+          onClick={() => nav('batch')}
+          className="px-5 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          ← Back
+        </button>
+        {expired ? (
+          <button
+            onClick={() => { setSecs(300); }}
+            className="px-6 py-2 rounded-lg text-white text-sm font-semibold"
+            style={{ backgroundColor: '#DC2626' }}
+          >
+            ↺ Request new quote
+          </button>
+        ) : (
+          <button
+            onClick={() => nav('processing')}
+            className="flex items-center gap-2 px-6 py-2 rounded-lg text-white text-sm font-semibold hover:opacity-90"
+            style={{ backgroundColor: BLUE }}
+          >
+            Accept quote &amp; authorise
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 // ─── 2FA Modal ────────────────────────────────────────────────────────────────
 const TwoFAModal = ({ onConfirm, onCancel }: { onConfirm: () => void; onCancel: () => void }) => {
   const [code, setCode] = useState('');
@@ -639,6 +780,7 @@ const STORY: Record<Screen, { tag: string; text: string }> = {
   'new-payment':  { tag: 'Payment build',    text: 'Finance team selects due invoices — domestic GBP and cross-border EUR in one batch. AccountsIQ builds the batch natively.' },
   'post-approval':{ tag: 'Approval locked',  text: 'Batch is approved and locked. The approver reviewed line by line inside AccountsIQ — no external portal required.' },
   'batch':        { tag: 'The moment',       text: '"Process With Stripe" sits at the exact same seam as the old TransferMate button. Zero retraining for the finance team.' },
+  'fx-quote':     { tag: 'FX quote',         text: 'Rates lock for 5 min — fetched at submission, not at approval time. The locked rate and cross-border fee post back to AccountsIQ ledger entries automatically on settlement.' },
   'processing':   { tag: 'Live status',      text: 'Per-payment webhooks drive real-time status: submitted → in-flight → settled. Ledger and remittances update automatically.' },
   'complete':     { tag: 'Cycle complete',   text: 'All payments settled. FX rates realised and posted. Remittances sent. The entire cycle never left AccountsIQ.' },
 };
@@ -706,6 +848,7 @@ export default function SupplierPaymentsDemoPage() {
           {screen === 'new-payment'   && <NewPaymentScreen nav={nav} />}
           {screen === 'post-approval' && <PostApprovalScreen nav={nav} />}
           {screen === 'batch'         && <BatchScreen nav={nav} />}
+          {screen === 'fx-quote'      && <FxQuoteScreen nav={nav} />}
           {screen === 'processing'    && <ProcessingScreen lines={lines} onComplete={() => setScreen('complete')} />}
           {screen === 'complete'      && <CompleteScreen onReset={reset} />}
         </div>
