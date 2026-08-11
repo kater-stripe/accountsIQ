@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Pay Invoice | Sage',
+  title: 'Pay Invoice | AccountsIQ',
   icons: {
     icon: '/img/brand/icon.svg',
   },
